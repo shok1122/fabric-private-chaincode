@@ -52,11 +52,23 @@ ifneq ($(SGX_DEVICE_PATH),)
 	DOCKER_DEV_RUN_OPTS += -v "$(DOCKERD_FPC_PATH)/config/ias/":$(DOCKER_FPC_PATH)/config/ias/ -v $(SGX_PSW_SOCKET):$(SGX_PSW_SOCKET) --device $(SGX_DEVICE_PATH)
 endif
 
-.PHONY: base ccenv dev peer cc-builder
+.PHONY: base ccenv dev peer cc-builder clean
 
 # - overall targets
 # ------------------
 build: base ccenv cc-builder
+
+clean:
+	docker rmi -f $(FPC_DOCKER_PEER_NAMESPACE)
+	docker rmi -f $(FPC_DOCKER_PEER_NAMESPACE):${FPC_VERSION}
+	docker rmi -f $(FPC_DOCKER_DEV_NAME)
+	docker rmi -f $(FPC_DOCKER_DEV_NAME):${FPC_VERSION}
+	docker rmi -f $(FPC_DOCKER_CCENV_NAME)
+	docker rmi -f $(FPC_DOCKER_CCENV_NAME):${FPC_VERSION}
+	docker rmi -f $(FPC_DOCKER_CC_BUILDER_NAME)
+	docker rmi -f $(FPC_DOCKER_CC_BUILDER_NAME):${FPC_VERSION}
+	docker rmi -f $(FPC_DOCKER_BASE_NAME)
+	docker rmi -f $(FPC_DOCKER_BASE_NAME):${FPC_VERSION}
 
 run: dev
 	# Cleanup existing but non-running (note absence of --force in rm!) old dev containers

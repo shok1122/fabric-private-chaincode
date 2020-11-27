@@ -33,6 +33,6 @@ export DOCKERD_FPC_PATH ?= $(FPC_PATH)
 export PROTOC_CMD ?= protoc
 
 JAVA ?= java
-PLANTUML_JAR ?= plantuml.jar
+PLANTUML_JAR ?= /opt/plantuml/plantuml.jar
 PLANTUML_CMD ?= $(JAVA) -jar $(PLANTUML_JAR)
 PLANTUML_IMG_FORMAT ?= png # pdf / png / svg
